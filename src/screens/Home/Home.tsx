@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Center } from '../../components/Center'
 import { FlatList, View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Platform, Image } from 'react-native'
 import { getHomeItems } from '../../actions/HomeListAction'
+import { postBagsAction } from '../../actions/DetailAction'
 import { RFValue } from "react-native-responsive-fontsize";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { NavigationProp } from "@react-navigation/native";
@@ -15,6 +16,9 @@ import { Size } from '../../services/Services';
 interface HomeProps {
     navigation: NavigationProp<any, any>,
     home: { isFetching: boolean, data: [any] },
+    route: { isFetching: boolean, data: [any] },
+    cart: { isFetching: boolean, shopingBag: [any] },
+    addAction: (cart: Array<any>) => {}
     fetchData: () => {}
 }
 
@@ -49,6 +53,18 @@ class Home extends React.Component<HomeProps, State> {
         this.props.fetchData()
     };
 
+    addToCart(id: number) {
+        let data = this.getData()
+        let product = data[id]
+        let actualCart = [...this.props.cart.shopingBag]
+        actualCart.push(product)
+        this.props.addAction([...actualCart])
+        this.props.navigation.navigate('Detail', {
+            screen: 'Cart',
+        })
+
+    }
+
 
     render() {
         this.props.navigation.setOptions({
@@ -75,8 +91,13 @@ class Home extends React.Component<HomeProps, State> {
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Detail', {
                     screen: 'Cart',
                 })} style={{ marginRight: 20 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <AntDesign name='shoppingcart' size={24} color={"black"} />
+                    <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, width: wp(10), justifyContent: 'center', alignItems: 'center', }}>
+                            <AntDesign name='shoppingcart' size={24} color={"black"} />
+                            <View style={{ left: 22, position: 'absolute', width: 18, height: 18, borderRadius: 18 / 2, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', top: -3, zIndex: 10 }}>
+                                <Text style={{ color: 'white' }}>{this.props.cart.shopingBag.length}</Text>
+                            </View>
+                        </View>
                     </View>
                 </TouchableOpacity>
             )
@@ -154,10 +175,10 @@ class Home extends React.Component<HomeProps, State> {
                                         </View>
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                                             <View style={{ flex: 2 }}>
-                                                <Text style={{ fontSize: RFValue(10), marginLeft: 10 }}>{item.amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")+" CLP"}</Text>
+                                                <Text style={{ fontSize: RFValue(10), marginLeft: 10 }}>{item.amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + " CLP"}</Text>
                                             </View>
                                             <View style={{ flex: 1 }}>
-                                                <TouchableOpacity onPress={() => null} style={{}}>
+                                                <TouchableOpacity onPress={() => this.addToCart(index)}>
                                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                                         <AntDesign name='shoppingcart' size={24} color={"black"} />
                                                     </View>
@@ -188,11 +209,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: any) => ({
     home: state.home,
+    cart: state.cartshop,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
 
-    fetchData: () => dispatch(getHomeItems())
+    fetchData: () => dispatch(getHomeItems()),
+    addAction: (cart: Array<any>) => dispatch(postBagsAction(cart)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

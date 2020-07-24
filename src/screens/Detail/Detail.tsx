@@ -65,8 +65,13 @@ class Detail extends React.Component<HomeProps, State> {
             ),
             headerRight: () => (
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Cart')} style={{ marginRight: 20 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <AntDesign name='shoppingcart' size={24} color={"black"} />
+                    <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, width: wp(10), justifyContent: 'center', alignItems: 'center', }}>
+                            <AntDesign name='shoppingcart' size={24} color={"black"} />
+                            <View style={{ left:22, position: 'absolute', width: 18, height: 18, borderRadius: 18 / 2, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', top: -3, zIndex: 10 }}>
+                                <Text style={{ color: 'white' }}>{this.props.cart.shopingBag.length}</Text>
+                            </View>
+                        </View>
                     </View>
                 </TouchableOpacity>
             )
@@ -131,7 +136,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
 
-    addAction: (cart: Array<any>) => dispatch(postBagsAction(cart)),
+    addAction: (cart: Array<any>) => dispatch(postBagsAction(cart))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail)

@@ -98,7 +98,7 @@ class Cart extends React.Component<HomeProps, State> {
                                                 <TouchableWithoutFeedback onPress={() => { this.removeFromCart(index) }} style={{}}>
                                                     <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                                         <View style={{ justifyContent: 'center', alignItems: 'flex-end', marginRight: 5 }}>
-                                                            {/* <Text>Remover</Text> */}
+                                                            
                                                         </View>
                                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end', marginRight: 20 }}>
                                                             <AntDesign name='closecircleo' size={24} color={"black"} />
