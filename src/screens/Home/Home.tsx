@@ -29,6 +29,11 @@ class Home extends React.Component<HomeProps, State> {
 
     getData = () => {
         let data = this.props.home.data ? [...this.props.home.data] : []
+        if (data.length > 0) {
+            data.map((item) => {
+                item['amount'] = Math.floor(Math.random() * 1 * 100000) + 1
+            })
+        }
         return data
     }
 
@@ -149,7 +154,7 @@ class Home extends React.Component<HomeProps, State> {
                                         </View>
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                                             <View style={{ flex: 2 }}>
-                                                <Text style={{ fontSize: RFValue(10), marginLeft: 10 }}>45.000,00 CLP</Text>
+                                                <Text style={{ fontSize: RFValue(10), marginLeft: 10 }}>{item.amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")+" CLP"}</Text>
                                             </View>
                                             <View style={{ flex: 1 }}>
                                                 <TouchableOpacity onPress={() => null} style={{}}>
