@@ -29,6 +29,7 @@ interface State {
 class Home extends React.Component<HomeProps, State> {
 
     componentDidMount() {
+        this.props.fetchData()
     }
 
     getData = () => {
@@ -94,9 +95,12 @@ class Home extends React.Component<HomeProps, State> {
                     <View style={{ flex: 1 }}>
                         <View style={{ flex: 1, width: wp(10), justifyContent: 'center', alignItems: 'center', }}>
                             <AntDesign name='shoppingcart' size={24} color={"black"} />
-                            <View style={{ left: 22, position: 'absolute', width: 18, height: 18, borderRadius: 18 / 2, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', top: -3, zIndex: 10 }}>
-                                <Text style={{ color: 'white' }}>{this.props.cart.shopingBag.length}</Text>
-                            </View>
+                            {
+                                this.props.cart.shopingBag.length > 0 ?
+                                    <View style={{ left: 22, position: 'absolute', width: 18, height: 18, borderRadius: 18 / 2, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center', top: -3, zIndex: 10 }}>
+                                        <Text style={{ color: 'white' }}>{this.props.cart.shopingBag.length}</Text>
+                                    </View> : null
+                            }
                         </View>
                     </View>
                 </TouchableOpacity>
