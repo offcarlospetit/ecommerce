@@ -82,7 +82,7 @@ class Detail extends React.Component<HomeProps, State> {
                             height: Size(650)
                         }} />
                         <View style={{ backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', width: wp(100), height: 80, bottom: 0 }}>
-                            <Text style={{ marginTop: 20, fontSize: RFValue(18), color: 'white', marginLeft: 20 }}>{product.amiiboSeries}</Text>
+                            <Text style={{ marginTop: 20, fontSize: RFValue(18), color: 'white', marginLeft: 20 }}>{product.amiiboSeries + " : " + product.amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") + " CLP"}</Text>
                         </View>
                     </View>
                     <View style={{ flex: 2, width: wp(100), justifyContent: 'flex-start', backgroundColor: '#ededed' }}>
